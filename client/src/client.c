@@ -37,17 +37,17 @@ int main(void)
 
 	/* ---------------- LEER DE CONSOLA ---------------- */
 
-	leer_consola(logger);
+	//leer_consola(logger);
 
 	/*---------------------------------------------------PARTE 3-------------------------------------------------------------*/
 
 	// ADVERTENCIA: Antes de continuar, tenemos que asegurarnos que el servidor esté corriendo para poder conectarnos a él
 
 	// Creamos una conexión hacia el servidor
-	//conexion = crear_conexion(ip, puerto);
+	conexion = crear_conexion(ip, puerto,logger);
 
 	// Enviamos al servidor el valor de CLAVE como mensaje
-
+	enviar_mensaje(valor,conexion);
 	// Armamos y enviamos el paquete
 	//paquete(conexion);
 
@@ -86,10 +86,10 @@ void leer_consola(t_log* logger)
 	// El resto, las vamos leyendo y logueando hasta recibir un string vacío
 	while (1) {
 		linea = readline(">");
-		if (!linea) {
+		if(string_is_empty(linea)){
 			break;
 		}
-		log_info(logger,"Linea: %s", linea);
+		log_info(logger,"%s", linea);
 		free(linea);
     }
 
