@@ -37,7 +37,7 @@ int main(void)
 
 	/* ---------------- LEER DE CONSOLA ---------------- */
 
-	//leer_consola(logger);
+	leer_consola(logger);
 
 	/*---------------------------------------------------PARTE 3-------------------------------------------------------------*/
 
@@ -49,9 +49,9 @@ int main(void)
 	// Enviamos al servidor el valor de CLAVE como mensaje
 	enviar_mensaje(valor,conexion);
 	// Armamos y enviamos el paquete
-	//paquete(conexion);
+	paquete(conexion);
 
-	//terminar_programa(conexion, logger, config);*/
+	terminar_programa(conexion, logger, config);
 
 	/*---------------------------------------------------PARTE 5-------------------------------------------------------------*/
 	// Proximamente
@@ -83,6 +83,8 @@ t_config* iniciar_config(void)
 void leer_consola(t_log* logger)
 {
 	char *linea;
+
+	
 	// El resto, las vamos leyendo y logueando hasta recibir un string vacío
 	while (1) {
 		linea = readline(">");
@@ -101,12 +103,22 @@ void paquete(int conexion)
 {
 	// Ahora toca lo divertido!
 	char* leido;
-	t_paquete* paquete;
+	t_paquete* paquete=crear_paquete();
 
 	// Leemos y esta vez agregamos las lineas al paquete
-
-
+	while (1) {
+		leido = readline(">");
+		if(string_is_empty(leido)){
+			break;
+		}
+		int tamanio= string_length(leido)+1;
+		printf("tamanio de %s es de %d",leido,tamanio);
+		agregar_a_paquete(paquete,leido,tamanio);
+		free(leido);
+    }
+	enviar_paquete(paquete,conexion);
 	// ¡No te olvides de liberar las líneas y el paquete antes de regresar!
+	eliminar_paquete(paquete);
 	
 }
 
@@ -117,4 +129,5 @@ void terminar_programa(int conexion, t_log* logger, t_config* config)
 
 	log_destroy(logger);
 	config_destroy(config);
+	liberar_conexion(conexion);
 }

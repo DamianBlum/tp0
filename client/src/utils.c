@@ -21,7 +21,7 @@ void* serializar_paquete(t_paquete* paquete, int bytes) //llega con 14 bytes
 
 int crear_conexion(char *ip, char* puerto,t_log* logger)
 {
-	int socket_cliente;//despues tratar si falla err en alguna de las cosas
+	int socket_cliente;
 	struct addrinfo hints;
 	struct addrinfo *server_info;
 
